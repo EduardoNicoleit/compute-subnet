@@ -25,7 +25,6 @@ jobs:
           fi
 
       - name: Post comment if title is invalid
-        if: steps.check_title.outputs.invalid == 'true'
         uses: actions/github-script@v5
         with:
           github-token: ${{ secrets.ACCESS_TOKEN }}
@@ -40,11 +39,21 @@ jobs:
             });
             for (const comment of comments) {
               if(comment.body.startsWith("Please follow the naming conventions for PR titles")) {
-                await github.rest.issues.deleteComment({
-                  owner,
-                  repo,
-                  comment_id: comment.id
-                })
+                if(steps.check_title.outputs.invalid === 'false') {
+                  await  github.rest.issues.deleteComment({
+                    owner,
+                    repo,
+                    comment_id: comment.id
+                  })
+                } else {
+                  await github.rest.issues.updateComment({
+                    owner,
+                    repo,
+                    comment_id: comment.id,
+                    body: commentBody
+                  })
+                }
+                return;
               }
             }
             // Post the new comment if the title is invalid
