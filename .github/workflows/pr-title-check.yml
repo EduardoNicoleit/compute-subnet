@@ -40,7 +40,7 @@ jobs:
             });
             for (const comment of comments) {
               if(comment.body.startsWith("Please follow the naming conventions for PR titles")) {
-                if(steps.check_title.outputs.invalid === 'false') {
+                if(isInvalid === 'false') {
                   await  github.rest.issues.deleteComment({
                     owner,
                     repo,
