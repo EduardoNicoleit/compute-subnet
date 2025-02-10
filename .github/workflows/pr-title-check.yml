@@ -19,6 +19,7 @@ jobs:
           if [[ ! "$PR_TITLE" =~ ^CSN-[0-9]{3,5} ]]; then
             echo "Invalid title: $PR_TITLE"
             echo "::set-output name=invalid::true"
+            exit 1 # This will fail the job
           else
             echo "Valid title"
             echo "::set-output name=invalid::false"
@@ -54,8 +55,8 @@ jobs:
                     comment_id: comment.id,
                     body: commentBody
                   })
+                  return;
                 }
-                return;
               }
             }
             // Post the new comment if the title is invalid
