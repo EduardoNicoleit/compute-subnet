@@ -29,14 +29,15 @@ jobs:
         with:
           github-token: ${{ secrets.ACCESS_TOKEN }}
           script: |
-            const { owner, repo } = context.repo;
+            const { owner, repo } = github.context.repo;
+            const issue_number = github.context.issue.number;
             const title = "${{ github.event.pull_request.title }}";
             const isInvalid = "${{steps.check_title.outputs.invalid}}";
             const commentBody = `Please follow the naming conventions for PR titles. They should start with "CSN-" followed by 3 to 5 digits. Current title: "${title}"`;
             const {data:comments} = await github.rest.issues.listComments({
               owner,
               repo,
-              issue_number: context.issue.number
+              issue_number: issue_number
             });
             for (const comment of comments) {
               if(comment.body.startsWith("Please follow the naming conventions for PR titles")) {
