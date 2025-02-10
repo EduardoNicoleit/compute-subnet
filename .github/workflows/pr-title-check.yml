@@ -30,7 +30,7 @@ jobs:
         with:
           github-token: ${{ secrets.ACCESS_TOKEN }}
           script: |
-            const { github, context } = require('@actions/github');
+            const { context } = require('@actions/github');
             const { owner, repo } = context.repo;
             const title = "${{ github.event.pull_request.title }}";
             const comment = `Please follow the naming conventions for PR titles. They should start with "CSN-" followed by 3 to 5 digits. Current title: "${title}"`;
