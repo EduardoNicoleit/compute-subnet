@@ -27,7 +27,7 @@ jobs:
         if: steps.check_title.outputs.invalid == 'true'
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.ACCESS_TOKEN }}
           script: |
             const title = "${{ github.event.pull_request.title }}";
             const comment = `Please follow the naming conventions for PR titles. They should start with "CSN-" followed by 3 to 5 digits. Current title: "${title}"`;
