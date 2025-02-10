@@ -35,7 +35,7 @@ jobs:
             const {data:comments} = await github.rest.issues.listComments({
               owner,
               repo,
-              isssue_nuber: context.issue.number
+              issue_number: context.issue.number
             });
             for (const comment of comments) {
               if(comment.body.startsWith("Please follow the naming conventions for PR titles")) {
