@@ -54,8 +54,8 @@ jobs:
                     comment_id: comment.id,
                     body: commentBody
                   })
-                  return;
                 }
+                return;
               }
             }
             // Post the new comment if the title is invalid
