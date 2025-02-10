@@ -31,6 +31,7 @@ jobs:
           script: |
             const { owner, repo } = context.repo;
             const title = "${{ github.event.pull_request.title }}";
+            const isInvalid = "${{steps.check_title.outputs.invalid}}";
             const commentBody = `Please follow the naming conventions for PR titles. They should start with "CSN-" followed by 3 to 5 digits. Current title: "${title}"`;
             const {data:comments} = await github.rest.issues.listComments({
               owner,
@@ -57,7 +58,7 @@ jobs:
               }
             }
             // Post the new comment if the title is invalid
-            if (steps.check_title.outputs.invalid === 'true') {
+            if (isInvalid === 'true') {
               await github.rest.issues.createComment({
                 owner,
                 repo,
