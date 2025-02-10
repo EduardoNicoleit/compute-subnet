@@ -34,7 +34,7 @@ jobs:
             const title = "${{ github.event.pull_request.title }}";
             const isInvalid = "${{steps.check_title.outputs.invalid}}";
             const commentBody = `Please follow the naming conventions for PR titles. They should start with "CSN-" followed by 3 to 5 digits. Current title: "${title}"`;
-            const {data:comments} = await octokit.rest.issues.listComments({
+            const {data:comments} = await github.rest.issues.listComments({
               owner,
               repo,
               issue_number: issue_number
@@ -42,13 +42,13 @@ jobs:
             for (const comment of comments) {
               if(comment.body.startsWith("Please follow the naming conventions for PR titles")) {
                 if(isInvalid === 'false') {
-                  await  octokit.rest.issues.deleteComment({
+                  await  github.rest.issues.deleteComment({
                     owner,
                     repo,
                     comment_id: comment.id
                   })
                 } else {
-                  await octokit.rest.issues.updateComment({
+                  await github.rest.issues.updateComment({
                     owner,
                     repo,
                     comment_id: comment.id,
@@ -60,7 +60,7 @@ jobs:
             }
             // Post the new comment if the title is invalid
             if (isInvalid === 'true') {
-              await octokit.rest.issues.createComment({
+              await github.rest.issues.createComment({
                 owner,
                 repo,
                 issue_number: issue_number,
